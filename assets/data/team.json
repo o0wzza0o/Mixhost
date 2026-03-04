@@ -1,0 +1,88 @@
+[
+    {
+        "name": "Wzza Almkseky",
+        "role": "Full Stack Developer",
+        "roleIcon": "fa-solid fa-server",
+        "photo": "assets/images/wzza.png",
+        "color": "#00d4ff",
+        "skills": [
+            {
+                "icon": "fa-brands fa-js",
+                "label": "JavaScript"
+            },
+            {
+                "icon": "fa-solid fa-database",
+                "label": "PHP"
+            },
+            {
+                "icon": "fa-solid fa-code",
+                "label": "C#"
+            },
+            {
+                "icon": "fa-solid fa-mobile-screen",
+                "label": "Dart"
+            },
+            {
+                "icon": "fa-solid fa-layer-group",
+                "label": "Flutter"
+            },
+            {
+                "icon": "fa-solid fa-memory",
+                "label": "C++"
+            },
+            {
+                "icon": "fa-brands fa-node-js",
+                "label": "Node.js"
+            }
+        ],
+        "projectsUrl": ""
+    },
+    {
+        "name": "Sherif Gomaa",
+        "role": "Designer & Photographer",
+        "roleIcon": "fa-solid fa-palette",
+        "photo": "assets/images/Sharif Gomaa.png",
+        "color": "#a259ff",
+        "skills": [
+            {
+                "icon": "fa-solid fa-camera",
+                "label": "Photography"
+            },
+            {
+                "icon": "fa-solid fa-pen-to-square",
+                "label": "Editing"
+            },
+            {
+                "icon": "fa-solid fa-paint-brush",
+                "label": "Design"
+            }
+        ],
+        "projectsUrl": ""
+    },
+    {
+        "name": "Ahmed Mohamed",
+        "role": "Front-end Developer & Editor",
+        "roleIcon": "fa-solid fa-laptop-code",
+        "photo": "assets/images/ZIEX.jpeg",
+        "color": "#ff6b6b",
+        "skills": [
+            {
+                "icon": "fa-brands fa-html5",
+                "label": "HTML"
+            },
+            {
+                "icon": "fa-brands fa-css3-alt",
+                "label": "CSS"
+            },
+            {
+                "icon": "fa-brands fa-js",
+                "label": "JavaScript"
+            },
+            {
+                "icon": "fa-solid fa-pen-to-square",
+                "label": "Editor"
+            }
+        ],
+        "projectsUrl": "project-ahmed.html"
+    }
+]

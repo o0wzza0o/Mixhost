@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="shortcut icon" href="assets/images/mix-host.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Mix Host | Home</title>
+</head>
+
+<body>
+    <!-- Navbar Start -->
+    <nav class="nav">
+        <div class="nav-container">
+
+            <ul class="left-links">
+                <li><a href="#Home"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="#Services"><i class="fa-solid fa-layer-group"></i> Services</a></li>
+            </ul>
+
+            <div class="nav-logo" id="menu-toggle">
+                <img src="assets/images/mix-host.png" alt="Mix Host Logo" class="logo-img">
+            </div>
+
+            <ul class="right-links">
+                <li><a href="#Team"><i class="fa-solid fa-users"></i> Team</a></li>
+                <li><a href="#Contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+            </ul>
+
+        </div>
+    </nav>
+    <section class="hero" id="Home">
+        <img src="assets/images/mix-host.png" class="hero-floating-img" alt="Floating Image">
+
+        <div class="hero-content">
+            <h1 class="hero-title" id="typewriter"
+                data-text="&quot;Turning Your Ideas into Content You Can't Ignore.&quot;"></h1>
+            <p class="hero-subtitle">"From your vision and ideas to a website that achieves your goals and makes a real
+                impact."</p>
+            <div class="hero-buttons">
+                <a href="#Team" class="btn btn-primary">Watch My Team</a>
+                <a href="#Contact" class="btn btn-secondary">Work With Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- team section -->
+    <section class="team-tree-section" id="Team">
+        <div class="tree-header reveal">
+            <span class="tree-label">Our Crew</span>
+            <h2 class="section-title">Meet Our Team</h2>
+            <p class="section-subtitle">Talented individuals united by one passion — creating content that hits
+                differently.</p>
+        </div>
+        <div class="org-tree" id="org-tree">
+            <div class="org-trunk"></div>
+            <!-- branches injected by home.js from /data/team.json -->
+        </div>
+    </section>
+
+    <!-- Operations Section (What We Do) -->
+    <section class="services-section reveal" id="Services">
+        <div class="tree-header reveal-child">
+            <span class="tree-label">What We Do</span>
+            <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Delivering high-quality digital solutions to elevate your brand.</p>
+        </div>
+
+        <div class="services-carousel reveal-child">
+            <div class="carousel-container">
+                <!-- Track 1 (Operations) -->
+                <div class="carousel-track track-1" id="services-track-1">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section (Languages/Stack) -->
+    <section class="services-section reveal" id="Technologies" style="margin-top: 0; padding-top: 40px;">
+        <div class="tree-header reveal-child">
+            <span class="tree-label">How We Build</span>
+            <h2 class="section-title">Our Tech Stack</h2>
+            <p class="section-subtitle">The modern technologies and languages we master to deliver excellence.</p>
+        </div>
+
+        <div class="services-carousel reveal-child">
+            <div class="carousel-container">
+                <!-- Track 2 (Technologies) -->
+                <div class="carousel-track track-2" id="services-track-2">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Stats Section -->
+    <section class="stats-section reveal" id="About">
+        <div class="tree-header reveal-child">
+            <span class="tree-label">About Us</span>
+            <h2 class="section-title">Our Impact in Numbers</h2>
+            <p class="section-subtitle">Real results driven by passion, experience, and commitment to excellence.</p>
+        </div>
+
+        <div class="stats-container reveal-child">
+            <div class="stat-box">
+                <i class="fa-solid fa-rocket"></i>
+                <h3 class="stat-number">+66</h3>
+                <p class="stat-label">Projects Completed</p>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-face-smile"></i>
+                <h3 class="stat-number">+50</h3>
+                <p class="stat-label">Happy Clients</p>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-code"></i>
+                <h3 class="stat-number">+7</h3>
+                <p class="stat-label">Years Experience</p>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-trophy"></i>
+                <h3 class="stat-number">99%</h3>
+                <p class="stat-label">Commitment</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section reveal" id="Contact">
+        <div class="tree-header reveal-child">
+            <span class="tree-label">Get in Touch</span>
+            <h2 class="section-title">Let's Work Together</h2>
+            <p class="section-subtitle">Have a project in mind? Reach out to us and let's make it happen.</p>
+        </div>
+
+        <div class="contact-container reveal-child">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fa-solid fa-envelope"></i>
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:info@mix-host.in">info@mix-host.in</a></p>
+                </div>
+                <div class="contact-card">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <h3>WhatsApp</h3>
+                    <p><a href="https://wa.me/201003252844" target="_blank">+20 100 325 2844</a></p>
+                </div>
+                <div class="contact-card">
+                    <i class="fa-brands fa-discord"></i>
+                    <h3>Discord</h3>
+                    <p><a href="#" target="_blank">Join Our Server</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer reveal">
+        <div class="footer-glow"></div>
+        <div class="footer-main">
+            <!-- Brand Column -->
+            <div class="footer-brand">
+                <img src="assets/images/mix-host.png" alt="Mix Host Logo" class="footer-logo">
+                <p class="footer-tagline">Turning your ideas into content you can't ignore.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul>
+                    <li><a href="#Home"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#Team"><i class="fa-solid fa-chevron-right"></i> Team</a></li>
+                    <li><a href="#Services"><i class="fa-solid fa-chevron-right"></i> Services</a></li>
+                    <li><a href="#Contact"><i class="fa-solid fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Column -->
+            <div class="footer-connect">
+                <h4 class="footer-heading">Connect</h4>
+                <div class="footer-social">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 Mix Host. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/home.js"></script>
+</body>
+
+</html>

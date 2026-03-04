@@ -1,0 +1,122 @@
+{
+    "track1": [
+        {
+            "name": "Web Development",
+            "icon": "fa-solid fa-globe"
+        },
+        {
+            "name": "Mobile Apps",
+            "icon": "fa-solid fa-mobile-screen"
+        },
+        {
+            "name": "Game Development",
+            "icon": "fa-solid fa-gamepad"
+        },
+        {
+            "name": "FiveM Scripts",
+            "icon": "fa-solid fa-car-side"
+        },
+        {
+            "name": "Windows Apps",
+            "icon": "fa-brands fa-windows"
+        },
+        {
+            "name": "System Creation",
+            "icon": "fa-solid fa-server"
+        },
+        {
+            "name": "E-Commerce",
+            "icon": "fa-solid fa-cart-shopping"
+        },
+        {
+            "name": "Cross Platform Apps",
+            "icon": "fa-solid fa-layer-group"
+        },
+        {
+            "name": "RESTful APIs",
+            "icon": "fa-solid fa-network-wired"
+        },
+        {
+            "name": "Database Design",
+            "icon": "fa-solid fa-database"
+        },
+        {
+            "name": "Desktop Software",
+            "icon": "fa-solid fa-computer"
+        },
+        {
+            "name": "Backend Systems",
+            "icon": "fa-solid fa-gears"
+        },
+        {
+            "name": "Frontend Design",
+            "icon": "fa-solid fa-palette"
+        },
+        {
+            "name": "Custom Dashboards",
+            "icon": "fa-solid fa-chart-line"
+        },
+        {
+            "name": "Data Science",
+            "icon": "fa-solid fa-chart-pie"
+        },
+        {
+            "name": "Machine Learning",
+            "icon": "fa-solid fa-robot"
+        },
+        {
+            "name": "Web Scraping",
+            "icon": "fa-solid fa-spider"
+        },
+        {
+            "name": "Automation Scripts",
+            "icon": "fa-solid fa-bolt"
+        }
+    ],
+    "track2": [
+        {
+            "name": "C / C++",
+            "icon": "fa-solid fa-microchip"
+        },
+        {
+            "name": "C#",
+            "icon": "fa-brands fa-microsoft"
+        },
+        {
+            "name": "Dart",
+            "icon": "fa-solid fa-bullseye"
+        },
+        {
+            "name": "Flutter",
+            "icon": "fa-solid fa-mobile-button"
+        },
+        {
+            "name": "JavaScript",
+            "icon": "fa-brands fa-js"
+        },
+        {
+            "name": "Java",
+            "icon": "fa-brands fa-java"
+        },
+        {
+            "name": "MySQL",
+            "icon": "fa-solid fa-database"
+        },
+        {
+            "name": "MongoDB",
+            "icon": "fa-solid fa-server"
+        },
+        {
+            "name": "React",
+            "icon": "fa-brands fa-react"
+        },
+        {
+            "name": "Next.js",
+            "icon": "fa-brands fa-js"
+        },
+        {
+            "name": "Python",
+            "icon": "fa-brands fa-python"
+        }
+    ]
+}
