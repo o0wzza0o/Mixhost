@@ -45,8 +45,8 @@
         "color": "#a259ff",
         "skills": [
             {
-                "icon": "fa-solid fa-camera",
-                "label": "Photography"
+                "icon": "fa-solid fa-bezier-curve",
+                "label": "UI/UX"
             },
             {
                 "icon": "fa-solid fa-pen-to-square",
