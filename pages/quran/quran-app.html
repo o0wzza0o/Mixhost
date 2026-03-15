@@ -459,9 +459,10 @@
             </a>
 
             <!-- File Info -->
-            <div class="file-info">
+            <div class="file-info" style="gap: 12px; flex-wrap: wrap;">
                 <span><i class="fa-brands fa-android"></i> Android</span>
                 <span id="app-size"><i class="fa-solid fa-hard-drive"></i> جاري الحساب...</span>
+                <span><i class="fa-solid fa-cloud-arrow-down"></i> <b id="download-count">...</b> تحميل</span>
                 <span><i class="fa-solid fa-shield-check"></i> آمن</span>
             </div>
         </div>
@@ -489,9 +490,40 @@
             container.appendChild(p);
         }
 
+        // --- Download Counter Logic ---
+        const namespace = 'mixhost-quran-app';
+        const key = 'downloads';
+        
+        // Fetch current downloads on load
+        async function fetchDownloadCount() {
+            try {
+                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                const data = await response.json();
+                document.getElementById('download-count').innerText = data.value || 0;
+            } catch (error) {
+                console.error('Error fetching download count:', error);
+                document.getElementById('download-count').innerText = "10+"; // completely graceful fallback
+            }
+        }
+        
+        // Increment downloads
+        async function incrementDownloadCount() {
+            try {
+                const response = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+                const data = await response.json();
+                document.getElementById('download-count').innerText = data.value;
+            } catch (error) {
+                console.error('Error incrementing download count:', error);
+            }
+        }
+
+        fetchDownloadCount();
+
         // Download button click feedback
         const btn = document.getElementById('download-btn');
         btn.addEventListener('click', function () {
+            incrementDownloadCount(); // Call the increment API
+
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
             setTimeout(() => {
