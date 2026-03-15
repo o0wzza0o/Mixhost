@@ -2,21 +2,22 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
-$file = 'data.json';
+$dataFile = 'data.json';
 
-// Initialize file if it doesn't exist
-if (!file_exists($file)) {
-    file_put_contents($file, json_encode(['download_count' => 0]));
+// Ensure the file exists
+if (!file_exists($dataFile)) {
+    file_put_contents($dataFile, json_encode(['download_count' => 0]));
 }
 
-$data = json_decode(file_get_contents($file), true);
+// Read current data
+$data = json_decode(file_get_contents($dataFile), true);
 
+// Check if it's a POST request to increment the count
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Increment download count
     $data['download_count']++;
-    file_put_contents($file, json_encode($data));
+    file_put_contents($dataFile, json_encode($data));
 }
 
-// Return the current or updated count
+// Return the current/updated count
 echo json_encode(['download_count' => $data['download_count']]);
 ?>
