@@ -587,65 +587,59 @@
             container.appendChild(p);
         }
 
-        // ══════════════════════════════════════════════════════════════
-        // JSONBin.io Config - ضع بياناتك هنا ليعمل العداد بشكل حقيقي
-        // ══════════════════════════════════════════════════════════════
-        const JSONBIN_BIN_ID = '69b6266fb7ec241ddc6c9fde';    // مثال: 65f3c2a1dc746540136e31d0
-        const JSONBIN_API_KEY = '$2a$10$TJhtHkvttmGqYTjHx2geruj7rXlD7KSwAvpC5tnoXUl/PzillKGVW';   // مثال: $2a$10$abc...
-        const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-
+        // ─── قراءة عدد التحميلات (SheetDB) ───
+        const SHEETDB_URL = 'https://sheetdb.io/api/v1/v8j35sgho8j66';
         const countEl = document.getElementById('download-count');
-
-        // ─── قراءة عدد التحميلات من السيرفر ───
+        let currentCount = 0;
+        
         async function loadCount() {
-            if (JSONBIN_BIN_ID === '69b6266fb7ec241ddc6c9fde') return; // توقف فقط إذا لم يتم إدخال المفاتيح
             try {
-                const res = await fetch(BIN_URL + '/latest', {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                });
-                const data = await res.json();
-                countEl.textContent = data.record.download_count?.toLocaleString('ar-EG') || '0';
+                const res = await fetch(SHEETDB_URL);
+                if (res.ok) {
+                    const data = await res.json();
+                    // SheetDB returns an array of objects
+                    if (data && data.length > 0) {
+                        currentCount = parseInt(data[0].download_count) || 0;
+                        countEl.textContent = currentCount.toLocaleString('ar-EG');
+                    }
+                }
             } catch (e) {
                 console.error('Error loading count:', e);
             }
         }
 
-        // ─── زيادة العداد وحفظه على السيرفر ───
         async function incrementCount() {
-            if (JSONBIN_BIN_ID === '69b6266fb7ec241ddc6c9fde') return;
             try {
-                // 1. قراءة القيمة الحالية
-                const res = await fetch(BIN_URL + '/latest', {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                });
-                const data = await res.json();
-                const newCount = (data.record.download_count || 0) + 1;
-
-                // 2. تحديث القيمة
-                await fetch(BIN_URL, {
-                    method: 'PUT',
+                const newCount = currentCount + 1;
+                // Update SheetDB (using the first row)
+                // We use search criteria to find the current row and update it
+                const updateRes = await fetch(`${SHEETDB_URL}/download_count/${currentCount}`, {
+                    method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ download_count: newCount })
+                    body: JSON.stringify({
+                        "download_count": newCount
+                    })
                 });
 
-                // 3. تحديث الواجهة
-                countEl.textContent = newCount.toLocaleString('ar-EG');
+                if (updateRes.ok) {
+                    currentCount = newCount;
+                    countEl.textContent = currentCount.toLocaleString('ar-EG');
+                }
             } catch (e) {
-                console.error('Counter error:', e);
+                console.error('Error incrementing count:', e);
             }
         }
 
-        // تحديث العداد كل 20 ثانية لمتابعة التحميلات الجديدة
-        setInterval(loadCount, 20000);
+        // تحديث العداد كل 10 ثواني لمزامنة البيانات
+        setInterval(loadCount, 10000);
 
         // ─── زر التحميل ───
         const btn = document.getElementById('download-btn');
         btn.addEventListener('click', function () {
-            incrementCount(); // زيادة العداد أوتوماتيكياً
-
+            incrementCount(); // زيادة العداد في جوجل شيت
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
             setTimeout(() => {
