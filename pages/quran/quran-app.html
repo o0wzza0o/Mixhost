@@ -282,7 +282,7 @@
         .app-subtitle {
             font-size: 1rem;
             color: var(--text-secondary);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             line-height: 1.7;
         }
 
@@ -290,20 +290,26 @@
         .download-counter {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
             background: rgba(79, 195, 247, 0.1);
-            padding: 8px 16px;
+            border: 1px solid rgba(79, 195, 247, 0.25);
             border-radius: 50px;
-            margin-bottom: 30px;
-            color: var(--primary-deep);
-            font-weight: 700;
-            font-size: 0.95rem;
-            border: 1px solid rgba(79, 195, 247, 0.2);
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 28px;
         }
 
         .download-counter i {
             color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        .counter-number {
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 1rem;
         }
 
         /* ── Features ── */
@@ -520,8 +526,8 @@
             <!-- Download Counter -->
             <div class="download-counter">
                 <i class="fa-solid fa-users"></i>
-                <span id="download-count-display">جاري التحميل...</span>
-                <span>مرات تحميل</span>
+                <span>عدد التحميلات:</span>
+                <span class="counter-number" id="download-count">...</span>
             </div>
 
             <!-- Features -->
@@ -581,24 +587,58 @@
             container.appendChild(p);
         }
 
-        // Download button click feedback & increase count
+        // ═══════════════════════════════════════════════
+        // JSONBin Config — ضع بياناتك هنا
+        // ═══════════════════════════════════════════════
+        const JSONBIN_BIN_ID  = 'YOUR_BIN_ID_HERE';   // مثال: 65f3c2a1dc746540136e31d0
+        const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE';   // مثال: $2a$10$abc...
+        const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
+        const countEl = document.getElementById('download-count');
+
+        // ─── قراءة عدد التحميلات ───
+        async function loadCount() {
+            try {
+                const res = await fetch(BIN_URL + '/latest', {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                countEl.textContent = data.record.download_count.toLocaleString('ar-EG');
+            } catch (e) {
+                countEl.textContent = '—';
+            }
+        }
+
+        // ─── زيادة العداد عند التحميل ───
+        async function incrementCount() {
+            try {
+                const res = await fetch(BIN_URL + '/latest', {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                const newCount = (data.record.download_count || 0) + 1;
+
+                await fetch(BIN_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify({ download_count: newCount })
+                });
+
+                countEl.textContent = newCount.toLocaleString('ar-EG');
+            } catch (e) {
+                console.error('Counter error:', e);
+            }
+        }
+
+        // ─── زر التحميل ───
         const btn = document.getElementById('download-btn');
-        btn.addEventListener('click', async function () {
-            // Visual feedback
+        btn.addEventListener('click', function () {
+            incrementCount();
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
-            
-            // Increase count via POST
-            try {
-                const response = await fetch('counter.php', { method: 'POST' });
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('download-count-display').innerText = data.download_count;
-                }
-            } catch (error) {
-                console.error('Error updating download count:', error);
-            }
-
             setTimeout(() => {
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> تم بدء التحميل!';
                 btn.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)';
@@ -610,7 +650,7 @@
             }, 1500);
         });
 
-        // Fetch APK size dynamically
+        // ─── حجم الـ APK ───
         async function fetchAppSize() {
             try {
                 const response = await fetch('app-release.apk', { method: 'HEAD' });
@@ -622,27 +662,13 @@
                     }
                 }
             } catch (error) {
-                console.error('Error fetching app size:', error);
+                console.error('Error:', error);
             }
         }
 
-        // Fetch and display download count
-        async function fetchDownloadCount() {
-            try {
-                const response = await fetch('counter.php');
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('download-count-display').innerText = data.download_count;
-                }
-            } catch (error) {
-                console.error('Error fetching download count:', error);
-                document.getElementById('download-count-display').innerText = '-';
-            }
-        }
-
-        // Call the functions on load
+        // ─── تشغيل عند فتح الصفحة ───
+        loadCount();
         fetchAppSize();
-        fetchDownloadCount();
     </script>
 </body>
 
