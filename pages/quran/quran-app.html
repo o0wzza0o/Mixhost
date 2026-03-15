@@ -587,56 +587,29 @@
             container.appendChild(p);
         }
 
-        // ═══════════════════════════════════════════════
-        // JSONBin Config — ضع بياناتك هنا
-        // ═══════════════════════════════════════════════
-        const JSONBIN_BIN_ID  = 'YOUR_BIN_ID_HERE';   // مثال: 65f3c2a1dc746540136e31d0
-        const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE';   // مثال: $2a$10$abc...
-        const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-
-        const countEl = document.getElementById('download-count');
-
         // ─── قراءة عدد التحميلات ───
+        const countEl = document.getElementById('download-count');
+        
         async function loadCount() {
             try {
-                const res = await fetch(BIN_URL + '/latest', {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                });
-                const data = await res.json();
-                countEl.textContent = data.record.download_count.toLocaleString('ar-EG');
+                // Since this is a static site (GitHub Pages), this will fetch the data.json from the server
+                // However, updating it from the client side directly to the file is not possible.
+                const res = await fetch('data.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    countEl.textContent = data.download_count?.toLocaleString('ar-EG') || '0';
+                } else {
+                    countEl.textContent = '0';
+                }
             } catch (e) {
+                console.error('Error loading count:', e);
                 countEl.textContent = '—';
-            }
-        }
-
-        // ─── زيادة العداد عند التحميل ───
-        async function incrementCount() {
-            try {
-                const res = await fetch(BIN_URL + '/latest', {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                });
-                const data = await res.json();
-                const newCount = (data.record.download_count || 0) + 1;
-
-                await fetch(BIN_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
-                    },
-                    body: JSON.stringify({ download_count: newCount })
-                });
-
-                countEl.textContent = newCount.toLocaleString('ar-EG');
-            } catch (e) {
-                console.error('Counter error:', e);
             }
         }
 
         // ─── زر التحميل ───
         const btn = document.getElementById('download-btn');
         btn.addEventListener('click', function () {
-            incrementCount();
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
             setTimeout(() => {
@@ -650,7 +623,7 @@
             }, 1500);
         });
 
-        // ─── حجم الـ APK ───
+        // Fetch APK size dynamically
         async function fetchAppSize() {
             try {
                 const response = await fetch('app-release.apk', { method: 'HEAD' });
@@ -662,7 +635,7 @@
                     }
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error fetching app size:', error);
             }
         }
 
