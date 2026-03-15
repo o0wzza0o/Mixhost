@@ -459,11 +459,11 @@
             </a>
 
             <!-- File Info -->
-            <div class="file-info" style="gap: 12px; flex-wrap: wrap;">
+            <div class="file-info">
                 <span><i class="fa-brands fa-android"></i> Android</span>
                 <span id="app-size"><i class="fa-solid fa-hard-drive"></i> جاري الحساب...</span>
-                <span><i class="fa-solid fa-cloud-arrow-down"></i> <b id="download-count">...</b> تحميل</span>
                 <span><i class="fa-solid fa-shield-check"></i> آمن</span>
+                <span id="download-count" title="عدد مرات التحميل"><i class="fa-solid fa-cloud-arrow-down"></i> جاري الحساب...</span>
             </div>
         </div>
 
@@ -490,40 +490,48 @@
             container.appendChild(p);
         }
 
-        // --- Download Counter Logic ---
-        const namespace = 'mixhost-quran-app';
-        const key = 'downloads';
-        
-        // Fetch current downloads on load
+        // CounterAPI configuration
+        const counterNamespace = 'mixhost';
+        const counterName = 'quran-app-downloads';
+        const counterApiUrl = `https://api.counterapi.dev/v1/${counterNamespace}/${counterName}`;
+
+        // Fetch initial download count
         async function fetchDownloadCount() {
             try {
-                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
-                const data = await response.json();
-                document.getElementById('download-count').innerText = data.value || 0;
+                const response = await fetch(counterApiUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('download-count').innerHTML = `<i class="fa-solid fa-cloud-arrow-down"></i> ${data.count} تحميل`;
+                } else {
+                    document.getElementById('download-count').innerHTML = `<i class="fa-solid fa-cloud-arrow-down"></i> 0 تحميل`;
+                }
             } catch (error) {
                 console.error('Error fetching download count:', error);
-                document.getElementById('download-count').innerText = "10+"; // completely graceful fallback
+                document.getElementById('download-count').innerHTML = `<i class="fa-solid fa-cloud-arrow-down"></i> -- تحميل`;
             }
         }
-        
-        // Increment downloads
+
+        // Increment download count
         async function incrementDownloadCount() {
             try {
-                const response = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
-                const data = await response.json();
-                document.getElementById('download-count').innerText = data.value;
+                const response = await fetch(`${counterApiUrl}/up`);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('download-count').innerHTML = `<i class="fa-solid fa-cloud-arrow-down"></i> ${data.count} تحميل`;
+                }
             } catch (error) {
                 console.error('Error incrementing download count:', error);
             }
         }
 
-        fetchDownloadCount();
-
-        // Download button click feedback
+        // Download button click feedback & count increment
         const btn = document.getElementById('download-btn');
         btn.addEventListener('click', function () {
-            incrementDownloadCount(); // Call the increment API
+            // Increment the counter
+            incrementDownloadCount();
 
+            // Visual feedback
+            const originalHTML = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
             setTimeout(() => {
@@ -534,7 +542,7 @@
                     btn.style.background = '';
                     btn.style.pointerEvents = '';
                 }, 3000);
-            }, 1500);
+            }, 1000);
         });
 
         // Fetch APK size dynamically
@@ -553,8 +561,9 @@
             }
         }
         
-        // Call the function on load
+        // Call the functions on load
         fetchAppSize();
+        fetchDownloadCount();
     </script>
 </body>
 
