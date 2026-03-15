@@ -592,9 +592,8 @@
         
         async function loadCount() {
             try {
-                // Since this is a static site (GitHub Pages), this will fetch the data.json from the server
-                // However, updating it from the client side directly to the file is not possible.
-                const res = await fetch('data.json');
+                // adding a timestamp to bypass browser cache
+                const res = await fetch('data.json?t=' + new Date().getTime());
                 if (res.ok) {
                     const data = await res.json();
                     countEl.textContent = data.download_count?.toLocaleString('ar-EG') || '0';
@@ -606,6 +605,9 @@
                 countEl.textContent = '—';
             }
         }
+
+        // تحديث العداد كل 5 ثواني عشان لو الرقم اتغير في الملف يسمع من غير ريفريش
+        setInterval(loadCount, 5000);
 
         // ─── زر التحميل ───
         const btn = document.getElementById('download-btn');
