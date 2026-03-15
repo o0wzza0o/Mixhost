@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="حمّل تطبيق القرآن الكريم - اقرأ واستمع للقرآن بسهولة">
+    <link rel="shortcut icon" href="app-logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>تحميل تطبيق القرآن الكريم</title>
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4FC3F7;          /* Light Blue */
+            --primary-dark: #039BE5;
+            --primary-deep: #0277BD;
+            --background: #ffffff;       /* White */
+            --card-color: #F0F4F8;       /* Light grey-blue */
+            --text-primary: #2C3E50;     /* Dark Blue/Grey */
+            --text-secondary: #7F8C8D;   /* Lighter Grey */
+            --shadow: rgba(44, 62, 80, 0.12);
+            --glow: rgba(79, 195, 247, 0.35);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── Animated Background ── */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-pattern::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(79, 195, 247, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(3, 155, 229, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(79, 195, 247, 0.05) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgMove {
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-5%, -5%) rotate(3deg); }
+        }
+
+        /* Floating geometric shapes */
+        .geo-shape {
+            position: fixed;
+            border: 1.5px solid rgba(79, 195, 247, 0.12);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .geo-shape:nth-child(1) {
+            width: 300px; height: 300px;
+            top: -100px; right: -80px;
+            animation-duration: 18s;
+        }
+        .geo-shape:nth-child(2) {
+            width: 200px; height: 200px;
+            bottom: 10%; left: -60px;
+            animation-duration: 22s;
+            animation-delay: -5s;
+        }
+        .geo-shape:nth-child(3) {
+            width: 150px; height: 150px;
+            top: 40%; right: 10%;
+            border-color: rgba(3, 155, 229, 0.1);
+            animation-duration: 25s;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+            50%      { transform: translateY(-30px) rotate(180deg); opacity: 1; }
+        }
+
+        /* ── Soft Particles ── */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50%      { opacity: 0.35; transform: scale(1.2); }
+        }
+
+        /* ── Main Content ── */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* ── Header Bismillah ── */
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: var(--primary-deep);
+            text-align: center;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        /* ── App Card ── */
+        .app-card {
+            background: var(--card-color);
+            border: 1px solid rgba(79, 195, 247, 0.15);
+            border-radius: 28px;
+            padding: 50px 40px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.4s;
+            box-shadow:
+                0 4px 30px rgba(44, 62, 80, 0.06),
+                0 1px 3px rgba(44, 62, 80, 0.08);
+        }
+
+        .app-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.04), transparent);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%   { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        /* ── App Icon ── */
+        .app-icon-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 28px;
+        }
+
+        .app-icon-glow {
+            position: absolute;
+            inset: -15px;
+            border-radius: 32px;
+            background: radial-gradient(circle, rgba(79, 195, 247, 0.25), transparent 70%);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50%      { opacity: 1; transform: scale(1.08); }
+        }
+
+        .app-icon {
+            width: 140px;
+            height: 140px;
+            border-radius: 28px;
+            object-fit: cover;
+            position: relative;
+            box-shadow:
+                0 10px 40px rgba(44, 62, 80, 0.15),
+                0 0 25px rgba(79, 195, 247, 0.12);
+            transition: transform 0.3s ease;
+        }
+
+        .app-icon:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* ── Text ── */
+        .app-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .app-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        /* ── Features ── */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 35px;
+        }
+
+        .feature {
+            background: var(--background);
+            border: 1px solid rgba(79, 195, 247, 0.15);
+            border-radius: 14px;
+            padding: 16px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(79, 195, 247, 0.06);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(79, 195, 247, 0.12);
+        }
+
+        .feature i {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .feature span {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ── Download Button ── */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 16px 48px;
+            border-radius: 50px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 6px 25px rgba(79, 195, 247, 0.35),
+                0 0 50px rgba(79, 195, 247, 0.08);
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow:
+                0 10px 35px rgba(79, 195, 247, 0.45),
+                0 0 70px rgba(79, 195, 247, 0.12);
+        }
+
+        .download-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .download-btn i {
+            font-size: 1.3rem;
+        }
+
+        /* ── File Info ── */
+        .file-info {
+            margin-top: 18px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .file-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .file-info i {
+            color: var(--primary-dark);
+        }
+
+        /* ── Footer ── */
+        .page-footer {
+            margin-top: 40px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+
+        .page-footer a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .page-footer a:hover {
+            color: var(--primary-deep);
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 560px) {
+            .app-card {
+                padding: 35px 22px;
+                border-radius: 22px;
+            }
+
+            .app-icon {
+                width: 110px;
+                height: 110px;
+            }
+
+            .app-title {
+                font-size: 1.7rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .download-btn {
+                padding: 14px 36px;
+                font-size: 1.05rem;
+            }
+
+            .bismillah {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Effects -->
+    <div class="bg-pattern"></div>
+    <div class="geo-shape"></div>
+    <div class="geo-shape"></div>
+    <div class="geo-shape"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="page-wrapper">
+        <p class="bismillah">﷽</p>
+
+        <div class="app-card">
+            <!-- App Icon -->
+            <div class="app-icon-wrapper">
+                <div class="app-icon-glow"></div>
+                <img src="app-logo.jpg" alt="أيقونة تطبيق القرآن الكريم" class="app-icon">
+            </div>
+
+            <!-- App Info -->
+            <h1 class="app-title">القرآن الكريم</h1>
+            <p class="app-subtitle">
+                تطبيق شامل لقراءة القرآن الكريم بسهولة ويسر.
+                <br>
+                اقرأ، احفظ، واستمع في أي وقت ومن أي مكان.
+            </p>
+
+            <!-- Features -->
+            <div class="features">
+                <div class="feature">
+                    <i class="fa-solid fa-book-quran"></i>
+                    <span>قراءة القرآن</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span>حفظ العلامات</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-moon"></i>
+                    <span>الوضع الليلي</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <span>سهل الاستخدام</span>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <a href="app-release.apk" download="quran-app.apk" class="download-btn" id="download-btn">
+                <i class="fa-solid fa-download"></i>
+                تحميل التطبيق
+            </a>
+
+            <!-- File Info -->
+            <div class="file-info">
+                <span><i class="fa-brands fa-android"></i> Android</span>
+                <span><i class="fa-solid fa-hard-drive"></i> ~44 MB</span>
+                <span><i class="fa-solid fa-shield-check"></i> آمن</span>
+            </div>
+        </div>
+
+        <!-- Footer Link -->
+        <div class="page-footer">
+            <a href="../../index.html">
+                <i class="fa-solid fa-arrow-right"></i>
+                الرجوع إلى Mix Host
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Generate twinkling particles
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            p.style.animationDuration = (3 + Math.random() * 4) + 's';
+            p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+            container.appendChild(p);
+        }
+
+        // Download button click feedback
+        const btn = document.getElementById('download-btn');
+        btn.addEventListener('click', function () {
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
+            btn.style.pointerEvents = 'none';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> تم بدء التحميل!';
+                btn.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل التطبيق';
+                    btn.style.background = '';
+                    btn.style.pointerEvents = '';
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>
