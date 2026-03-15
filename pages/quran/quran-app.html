@@ -9,24 +9,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap"
+        rel="stylesheet">
     <title>تحميل تطبيق القرآن الكريم</title>
     <style>
         /* ── Reset & Base ── */
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         :root {
-            --primary: #4FC3F7;          /* Light Blue */
+            --primary: #4FC3F7;
+            /* Light Blue */
             --primary-dark: #039BE5;
             --primary-deep: #0277BD;
-            --background: #ffffff;       /* White */
-            --card-color: #F0F4F8;       /* Light grey-blue */
-            --text-primary: #2C3E50;     /* Dark Blue/Grey */
-            --text-secondary: #7F8C8D;   /* Lighter Grey */
+            --background: #ffffff;
+            /* White */
+            --card-color: #F0F4F8;
+            /* Light grey-blue */
+            --text-primary: #2C3E50;
+            /* Dark Blue/Grey */
+            --text-secondary: #7F8C8D;
+            /* Lighter Grey */
             --shadow: rgba(44, 62, 80, 0.12);
             --glow: rgba(79, 195, 247, 0.35);
         }
@@ -64,8 +73,13 @@
         }
 
         @keyframes bgMove {
-            0%   { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-5%, -5%) rotate(3deg); }
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-5%, -5%) rotate(3deg);
+            }
         }
 
         /* Floating geometric shapes */
@@ -79,27 +93,44 @@
         }
 
         .geo-shape:nth-child(1) {
-            width: 300px; height: 300px;
-            top: -100px; right: -80px;
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -80px;
             animation-duration: 18s;
         }
+
         .geo-shape:nth-child(2) {
-            width: 200px; height: 200px;
-            bottom: 10%; left: -60px;
+            width: 200px;
+            height: 200px;
+            bottom: 10%;
+            left: -60px;
             animation-duration: 22s;
             animation-delay: -5s;
         }
+
         .geo-shape:nth-child(3) {
-            width: 150px; height: 150px;
-            top: 40%; right: 10%;
+            width: 150px;
+            height: 150px;
+            top: 40%;
+            right: 10%;
             border-color: rgba(3, 155, 229, 0.1);
             animation-duration: 25s;
             animation-delay: -10s;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-            50%      { transform: translateY(-30px) rotate(180deg); opacity: 1; }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 1;
+            }
         }
 
         /* ── Soft Particles ── */
@@ -118,8 +149,17 @@
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50%      { opacity: 0.35; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(1.2);
+            }
         }
 
         /* ── Main Content ── */
@@ -166,15 +206,22 @@
         .app-card::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.04), transparent);
             animation: shimmer 6s ease-in-out infinite;
         }
 
         @keyframes shimmer {
-            0%   { left: -100%; }
-            100% { left: 200%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 200%;
+            }
         }
 
         /* ── App Icon ── */
@@ -193,8 +240,17 @@
         }
 
         @keyframes pulse-glow {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50%      { opacity: 1; transform: scale(1.08); }
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
         }
 
         .app-icon {
@@ -213,6 +269,31 @@
             transform: scale(1.05) rotate(-2deg);
         }
 
+        /* ── Download Badge ── */
+        .download-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(79, 195, 247, 0.1);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            box-shadow: 0 4px 15px rgba(79, 195, 247, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .download-badge:hover {
+            transform: translateY(-2px);
+        }
+
+        .download-badge i {
+            font-size: 1.1rem;
+        }
+
         /* ── Text ── */
         .app-title {
             font-family: 'Amiri', serif;
@@ -226,7 +307,7 @@
         .app-subtitle {
             font-size: 1rem;
             color: var(--text-secondary);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.7;
         }
 
@@ -291,9 +372,11 @@
         .download-btn::before {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 200%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s ease;
         }
 
@@ -362,8 +445,15 @@
 
         /* ── Animations ── */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ── Responsive ── */
@@ -432,6 +522,11 @@
                 اقرأ، احفظ، واستمع في أي وقت ومن أي مكان.
             </p>
 
+            <div class="download-badge" id="download-count">
+                <i class="fa-solid fa-users"></i>
+                <span><span class="count-number">0</span> تحميل</span>
+            </div>
+
             <!-- Features -->
             <div class="features">
                 <div class="feature">
@@ -463,7 +558,6 @@
                 <span><i class="fa-brands fa-android"></i> Android</span>
                 <span id="app-size"><i class="fa-solid fa-hard-drive"></i> جاري الحساب...</span>
                 <span><i class="fa-solid fa-shield-check"></i> آمن</span>
-                <span id="download-count"><i class="fa-solid fa-users"></i> <span class="count-number">0</span> تحميل</span>
             </div>
         </div>
 
@@ -547,7 +641,7 @@
                 console.error('Error fetching app size:', error);
             }
         }
-        
+
         // Call the functions on load
         fetchAppSize();
         fetchDownloadCount();
