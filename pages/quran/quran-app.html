@@ -589,7 +589,7 @@
 
         // ─── قراءة عدد التحميلات ───
         const countEl = document.getElementById('download-count');
-        
+
         async function loadCount() {
             try {
                 // adding a timestamp to bypass browser cache
@@ -611,7 +611,25 @@
 
         // ─── زر التحميل ───
         const btn = document.getElementById('download-btn');
+
+        async function incrementCount() {
+            try {
+                // بننادي ملف PHP داخلي هو اللي بيعدل ملف الـ JSON عندك
+                const res = await fetch('update_counter.php');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        countEl.textContent = data.new_count.toLocaleString('ar-EG');
+                    }
+                }
+            } catch (e) {
+                console.error('Counter error:', e);
+            }
+        }
+
         btn.addEventListener('click', function () {
+            incrementCount(); // بيزود في ملف الداتا داخلياً
+            
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
             setTimeout(() => {
