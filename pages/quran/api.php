@@ -14,66 +14,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Absolute path to the data file in the same directory
 $dataFile = __DIR__ . '/data.json';
 
-// Initialize data array
-$data = ["download_count" => 0];
-
-// Read existing data if the file exists
-if (file_exists($dataFile)) {
-    $json = file_get_contents($dataFile);
-    if ($json) {
-        $decoded = json_decode($json, true);
-        if ($decoded && isset($decoded['download_count'])) {
-            $data['download_count'] = (int)$decoded['download_count'];
-        }
+// Function to get current data safely
+function getCurrentData($file) {
+    if (!file_exists($file)) return ["download_count" => 0];
+    
+    $json = file_get_contents($file);
+    if (!$json) return ["download_count" => 0];
+    
+    $decoded = json_decode($json, true);
+    if ($decoded && isset($decoded['download_count'])) {
+        return ["download_count" => (int)$decoded['download_count']];
     }
-} else {
-    // Attempt to create the initial file
-    if (!@file_put_contents($dataFile, json_encode($data))) {
-        http_response_code(500);
-        echo json_encode(["error" => "Cannot create data.json. Check folder permissions."]);
-        exit();
-    }
+    
+    return ["download_count" => 0];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Increment the count safely using file locking
-    $fp = fopen($dataFile, 'c+');
+    $data = getCurrentData($dataFile);
+    $data['download_count']++; // Increment
     
-    if ($fp) {
-        if (flock($fp, LOCK_EX)) {  // Acquire an exclusive lock
-            // Read current data
-            $size = filesize($dataFile);
-            $json = $size > 0 ? fread($fp, $size) : '';
-            $decoded = json_decode($json, true);
-            
-            $currentCount = 0;
-            if ($decoded && isset($decoded['download_count'])) {
-                $currentCount = (int)$decoded['download_count'];
-            }
-            
-            // Increment
-            $currentCount++;
-            
-            // Write new data
-            ftruncate($fp, 0);      // Truncate file
-            rewind($fp);           // Go back to the beginning
-            fwrite($fp, json_encode(["download_count" => $currentCount]));
-            fflush($fp);            // Flush output
-            flock($fp, LOCK_UN);    // Release the lock
-            
-            echo json_encode(["success" => true, "download_count" => $currentCount]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["error" => "Could not lock the file for writing."]);
-        }
-        fclose($fp);
+    // Save new data using LOCK_EX to prevent write collisions
+    if (file_put_contents($dataFile, json_encode($data), LOCK_EX) !== false) {
+        echo json_encode(["success" => true, "download_count" => $data['download_count']]);
     } else {
         http_response_code(500);
-        echo json_encode(["error" => "Cannot open data.json for writing. Check permissions."]);
+        echo json_encode(["error" => "Cannot write to data.json. Check folder permissions."]);
     }
-    
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Return current count
+    $data = getCurrentData($dataFile);
     echo json_encode(["success" => true, "download_count" => $data['download_count']]);
 } else {
     http_response_code(405);
