@@ -587,49 +587,65 @@
             container.appendChild(p);
         }
 
-        // ─── قراءة عدد التحميلات ───
+        // ══════════════════════════════════════════════════════════════
+        // JSONBin.io Config - ضع بياناتك هنا ليعمل العداد بشكل حقيقي
+        // ══════════════════════════════════════════════════════════════
+        const JSONBIN_BIN_ID = '69b6266fb7ec241ddc6c9fde';    // مثال: 65f3c2a1dc746540136e31d0
+        const JSONBIN_API_KEY = '$2a$10$TJhtHkvttmGqYTjHx2geruj7rXlD7KSwAvpC5tnoXUl/PzillKGVW';   // مثال: $2a$10$abc...
+        const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
         const countEl = document.getElementById('download-count');
 
+        // ─── قراءة عدد التحميلات من السيرفر ───
         async function loadCount() {
+            if (JSONBIN_BIN_ID === '69b6266fb7ec241ddc6c9fde') return; // توقف فقط إذا لم يتم إدخال المفاتيح
             try {
-                // adding a timestamp to bypass browser cache
-                const res = await fetch('data.json?t=' + new Date().getTime());
-                if (res.ok) {
-                    const data = await res.json();
-                    countEl.textContent = data.download_count?.toLocaleString('ar-EG') || '0';
-                } else {
-                    countEl.textContent = '0';
-                }
+                const res = await fetch(BIN_URL + '/latest', {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                countEl.textContent = data.record.download_count?.toLocaleString('ar-EG') || '0';
             } catch (e) {
                 console.error('Error loading count:', e);
-                countEl.textContent = '—';
             }
         }
 
-        // تحديث العداد كل 5 ثواني عشان لو الرقم اتغير في الملف يسمع من غير ريفريش
-        setInterval(loadCount, 5000);
-
-        // ─── زر التحميل ───
-        const btn = document.getElementById('download-btn');
-
+        // ─── زيادة العداد وحفظه على السيرفر ───
         async function incrementCount() {
+            if (JSONBIN_BIN_ID === '69b6266fb7ec241ddc6c9fde') return;
             try {
-                // بننادي ملف PHP داخلي هو اللي بيعدل ملف الـ JSON عندك
-                const res = await fetch('update_counter.php');
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.status === 'success') {
-                        countEl.textContent = data.new_count.toLocaleString('ar-EG');
-                    }
-                }
+                // 1. قراءة القيمة الحالية
+                const res = await fetch(BIN_URL + '/latest', {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                });
+                const data = await res.json();
+                const newCount = (data.record.download_count || 0) + 1;
+
+                // 2. تحديث القيمة
+                await fetch(BIN_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify({ download_count: newCount })
+                });
+
+                // 3. تحديث الواجهة
+                countEl.textContent = newCount.toLocaleString('ar-EG');
             } catch (e) {
                 console.error('Counter error:', e);
             }
         }
 
+        // تحديث العداد كل 20 ثانية لمتابعة التحميلات الجديدة
+        setInterval(loadCount, 20000);
+
+        // ─── زر التحميل ───
+        const btn = document.getElementById('download-btn');
         btn.addEventListener('click', function () {
-            incrementCount(); // بيزود في ملف الداتا داخلياً
-            
+            incrementCount(); // زيادة العداد أوتوماتيكياً
+
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             btn.style.pointerEvents = 'none';
             setTimeout(() => {
