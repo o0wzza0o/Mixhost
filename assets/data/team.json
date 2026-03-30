@@ -36,6 +36,35 @@
             }
         ],
         "projectsUrl": ""
+    }, {
+        "name": "Salam Amin",
+        "role": "Flutter Developer & UI - UX Designer",
+        "roleIcon": "fa-solid fa-server",
+        "photo": "assets/images/wzza.png",
+        "color": "#00d4ff",
+        "skills": [
+            {
+                "icon": "fa-solid fa-mobile-screen",
+                "label": "Dart"
+            },
+            {
+                "icon": "fa-solid fa-layer-group",
+                "label": "Flutter"
+            },
+             {
+                "icon": "fa-solid fa-bezier-curve",
+                "label": "UI/UX"
+            },
+            {
+                "icon": "fa-solid fa-pen-to-square",
+                "label": "Editing"
+            },
+            {
+                "icon": "fa-solid fa-paint-brush",
+                "label": "Design"
+            }
+        ],
+        "projectsUrl": ""
     },
     {
         "name": "Sherif Gomaa",
