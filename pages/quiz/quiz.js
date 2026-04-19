@@ -159,37 +159,32 @@ let userAnswers = new Array(quizData.length).fill(null);
 let studentName = '';
 let quizCompleted = false;
 
-// Cookie functions
-function setCookie(name, value, days) {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+// Storage functions (using localStorage for better compatibility)
+function setStorage(name, value) {
+    localStorage.setItem(name, value);
 }
 
-function getCookie(name) {
-    const nameEQ = name + '=';
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
-    }
-    return null;
+function getStorage(name) {
+    return localStorage.getItem(name);
 }
 
-function clearQuizCookies() {
-    setCookie('quiz_completed', '', -1);
-    setCookie('quiz_name', '', -1);
-    setCookie('quiz_score', '', -1);
-    setCookie('quiz_date', '', -1);
+function clearStorage(name) {
+    localStorage.removeItem(name);
+}
+
+function clearQuizStorage() {
+    clearStorage('quiz_completed');
+    clearStorage('quiz_name');
+    clearStorage('quiz_score');
+    clearStorage('quiz_date');
 }
 
 // Check if quiz already completed (also verifies with Supabase)
 async function checkQuizStatus() {
-    const completed = getCookie('quiz_completed');
-    const savedName = getCookie('quiz_name');
-    const savedScore = getCookie('quiz_score');
-    const savedDate = getCookie('quiz_date');
+    const completed = getStorage('quiz_completed');
+    const savedName = getStorage('quiz_name');
+    const savedScore = getStorage('quiz_score');
+    const savedDate = getStorage('quiz_date');
     
     console.log('Checking quiz status:', { completed, savedName, savedScore, savedDate });
     
@@ -209,7 +204,7 @@ async function checkQuizStatus() {
             // If no record found in Supabase, admin deleted it - allow retake
             if (!error && (!data || data.length === 0)) {
                 console.log('Score was deleted by admin, allowing retake');
-                clearQuizCookies();
+                clearQuizStorage();
                 return false; // Allow to take quiz
             }
             
@@ -218,7 +213,7 @@ async function checkQuizStatus() {
             document.getElementById('retake-btn').style.display = 'inline-flex';
             
         } catch (e) {
-            console.log('Could not verify with Supabase, using cookies only');
+            console.log('Could not verify with Supabase, using storage only');
         }
         
         // Show already completed message
@@ -235,7 +230,7 @@ async function checkQuizStatus() {
 
 // Request retake - checks if admin deleted the score
 async function requestRetake() {
-    const savedName = getCookie('quiz_name');
+    const savedName = getStorage('quiz_name');
     if (!savedName) return;
     
     const studentName = decodeURIComponent(savedName);
@@ -254,7 +249,7 @@ async function requestRetake() {
         
         if (!error && (!data || data.length === 0)) {
             // Score was deleted by admin
-            clearQuizCookies();
+            clearQuizStorage();
             alert('Your score was cleared by admin. You can now retake the quiz!');
             location.reload();
         } else {
@@ -423,18 +418,18 @@ async function showResults() {
         summaryContainer.appendChild(resultItem);
     });
     
-    // Save to cookies (prevent retake)
+    // Save to localStorage (prevent retake)
     const now = new Date();
     const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-    setCookie('quiz_completed', 'true', 365);
-    setCookie('quiz_name', encodeURIComponent(studentName), 365);
-    setCookie('quiz_score', score, 365);
-    setCookie('quiz_date', encodeURIComponent(dateStr), 365);
+    setStorage('quiz_completed', 'true');
+    setStorage('quiz_name', encodeURIComponent(studentName));
+    setStorage('quiz_score', score);
+    setStorage('quiz_date', encodeURIComponent(dateStr));
     
-    console.log('Cookies set:', {
-        completed: getCookie('quiz_completed'),
-        name: getCookie('quiz_name'),
-        score: getCookie('quiz_score')
+    console.log('Storage set:', {
+        completed: getStorage('quiz_completed'),
+        name: getStorage('quiz_name'),
+        score: getStorage('quiz_score')
     });
     
     // Save to Supabase
