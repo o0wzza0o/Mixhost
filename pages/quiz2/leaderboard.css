@@ -1,0 +1,337 @@
+/* Leaderboard Styles */
+.leaderboard-section {
+    position: relative;
+    padding: 140px 2rem 80px;
+    min-height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Quiz Filter */
+.quiz-filter {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #b0b0b0;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.filter-btn.active {
+    background: linear-gradient(90deg, #ffffff93, #2b2a2aa4);
+    color: #000;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.leaderboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.leaderboard-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #ffd700, #ffed4a);
+    color: #000;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+}
+
+.leaderboard-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #ffffff93, #2b2a2aa4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.leaderboard-subtitle {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+}
+
+/* Stats Cards */
+.stats-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 25px 40px;
+    text-align: center;
+    min-width: 150px;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-card span {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stat-card label {
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Leaderboard Table */
+.leaderboard-container {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.leaderboard-table-wrapper {
+    overflow-x: auto;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.leaderboard-table th:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.leaderboard-table th:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.leaderboard-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+}
+
+.leaderboard-table tr:hover td {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Rank Styling */
+.rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.rank-1 {
+    background: linear-gradient(135deg, #ffd700, #ffed4a);
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.rank-2 {
+    background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+    color: #000;
+    box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+}
+
+.rank-3 {
+    background: linear-gradient(135deg, #cd7f32, #daa520);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(205, 127, 50, 0.3);
+}
+
+.rank-other {
+    background: rgba(255, 255, 255, 0.1);
+    color: #888;
+}
+
+/* Score Bar */
+.score-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-bar .bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 100px;
+}
+
+.score-bar .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.score-bar .bar-fill.high {
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+}
+
+.score-bar .bar-fill.medium {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.score-bar .bar-fill.low {
+    background: linear-gradient(90deg, #f87171, #ef4444);
+}
+
+.score-value {
+    font-weight: 700;
+    min-width: 50px;
+}
+
+/* Percentage Badge */
+.percentage-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.percentage-badge.excellent {
+    background: rgba(74, 222, 128, 0.2);
+    color: #4ade80;
+}
+
+.percentage-badge.good {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+}
+
+.percentage-badge.needs-work {
+    background: rgba(248, 113, 113, 0.2);
+    color: #f87171;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.empty-state p {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+/* Actions */
+.leaderboard-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.leaderboard-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-admin {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-admin:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .leaderboard-section {
+        padding: 120px 1rem 60px;
+    }
+
+    .stat-card {
+        padding: 20px 30px;
+        min-width: 120px;
+    }
+
+    .stat-card span {
+        font-size: 1.5rem;
+    }
+
+    .leaderboard-container {
+        padding: 20px 15px;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+
+    .score-bar .bar {
+        max-width: 60px;
+    }
+}
