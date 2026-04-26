@@ -22,21 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ─── Stars ─────────────────────────────────────── */
-    const starCount = 200;
-    const body = document.body;
-    for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        const size = Math.random() * 3 + 2;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        star.style.animationDelay = `${Math.random() * 5}s`;
-        body.appendChild(star);
+    /* ─── Navbar scroll state ────────────────────────── */
+    const navEl = document.querySelector('.nav');
+    if (navEl) {
+        window.addEventListener('scroll', () => {
+            navEl.classList.toggle('scrolled', window.scrollY > 80);
+        });
     }
+
+    /* ─── Stars (now handled by Three.js starfield.js) ─── */
 
     /* ─── Team Tree ──────────────────────────────────── */
     loadTeam();
@@ -89,16 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ─── Scroll Reveal (Intersection Observer) ───── */
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
+            const el = entry.target;
             if (entry.isIntersecting) {
                 // Add stagger delay for child elements
-                const el = entry.target;
                 if (el.classList.contains('reveal-child')) {
                     const siblings = [...el.parentElement.querySelectorAll('.reveal-child')];
                     const i = siblings.indexOf(el);
                     el.style.transitionDelay = `${i * 0.15}s`;
                 }
                 el.classList.add('active');
-                revealObserver.unobserve(el); // only animate once
+            } else {
+                // Remove so it re-animates next time it scrolls into view
+                el.classList.remove('active');
+                el.style.transitionDelay = '';
             }
         });
     }, {
@@ -129,6 +126,36 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         mutationObs.observe(orgTree, { childList: true, subtree: true });
+    }
+
+    /* ─── Hero Logo Zoom on Scroll ───────────────────── */
+    const heroLogo = document.querySelector('.hero-floating-img');
+    if (heroLogo) {
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            
+            // Transition completes after 600px of scrolling
+            const maxScroll = 600;
+            const progress = Math.min(scrollY / maxScroll, 1); // 0 to 1
+            
+            // Scale: shrinks from 1 down to 0.25
+            const scale = 1 - (progress * 0.75);
+            
+            // Move X & Y: shifts from center to bottom-right corner
+            const moveX = progress * 38; // vw
+            const moveY = progress * 35; // vh
+            
+            heroLogo.style.setProperty('--hero-logo-scale', scale);
+            heroLogo.style.setProperty('--logo-move-x', `${moveX}vw`);
+            heroLogo.style.setProperty('--logo-move-y', `${moveY}vh`);
+            
+            // Opacity: becomes more solid as it turns into a corner logo
+            const opacity = 0.6 + (progress * 0.3);
+            heroLogo.style.opacity = opacity;
+            
+            // Z-index: bring it to top so it's visible over content once it reaches the corner
+            heroLogo.style.setProperty('--logo-z-index', progress > 0.8 ? 100 : 0);
+        });
     }
 });
 
@@ -166,10 +193,6 @@ function buildBranch(m, side) {
         `<span>${s.icon ? `<i class="${s.icon}"></i>` : ''} ${s.label}</span>`
     ).join('');
 
-    const projectsBtn = m.projectsUrl
-        ? `<button class="mc-btn glow" onclick="location.href='${m.projectsUrl}'"><i class="fa-solid fa-eye"></i> Projects</button>`
-        : `<button class="mc-btn glow"><i class="fa-solid fa-eye"></i> Projects</button>`;
-
     const card = `
         <div class="member-card" style="--clr:${m.color}">
             <div class="${avatarClass}">
@@ -180,8 +203,7 @@ function buildBranch(m, side) {
             <p class="mc-role"><i class="${m.roleIcon}"></i> ${m.role}</p>
             <div class="mc-skills">${skillsHTML}</div>
             <div class="mc-btns">
-                <button class="mc-btn ghost"><i class="fa-solid fa-envelope"></i> Contact</button>
-                ${projectsBtn}
+                <button class="mc-btn glow" onclick="location.href='#Contact'"><i class="fa-solid fa-envelope"></i> Contact Us</button>
             </div>
         </div>`;
 
