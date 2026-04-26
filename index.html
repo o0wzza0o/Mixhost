@@ -33,8 +33,11 @@
 
         </div>
     </nav>
+
+
     <section class="hero" id="Home">
-        <img src="assets/images/mix-host.png" class="hero-floating-img" alt="Floating Image">
+        <model-viewer src="logo.glb" class="hero-floating-img" alt="Floating Image" auto-rotate
+            rotation-per-second="120deg" disable-zoom disable-pan style="background-color: transparent;"></model-viewer>
 
         <div class="hero-content">
             <h1 class="hero-title" id="typewriter"
@@ -206,7 +209,12 @@
         </div>
     </footer>
 
+    <canvas id="starfield"
+        style="position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; width: 100%; height: 100%;"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/js/starfield.js"></script>
     <script src="assets/js/home.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </body>
 
 </html>
