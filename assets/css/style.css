@@ -357,7 +357,7 @@
     }
 
     .hero-content {
-        z-index: 2;
+        z-index: 10;
         text-align: center;
         color: #ffffff;
         max-width: 900px;
@@ -368,11 +368,12 @@
         line-height: 1.1;
         font-weight: 800;
         margin-bottom: 1.5rem;
-        background: linear-gradient(90deg, #ffffff93, #2b2a2aa4);
+        background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 50%, #a0a0a0 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         min-height: 1.1em;
+        filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.95));
     }
 
     /* Typewriter blinking cursor */
@@ -387,21 +388,15 @@
     }
 
     @keyframes blink-cursor {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0;
-        }
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
     }
 
     .hero-subtitle {
         font-size: clamp(1.1rem, 2vw, 1.4rem);
         margin-bottom: 3rem;
-        color: #b0b0b0;
+        color: rgba(255, 255, 255, 0.9);
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.95));
     }
 
     .hero-buttons {
@@ -410,6 +405,7 @@
         justify-content: center;
         flex-wrap: wrap;
         margin-bottom: 3rem;
+        z-index: 15;
     }
 
     .btn {
@@ -424,26 +420,29 @@
     }
 
     .btn-primary {
-        background: linear-gradient(90deg, #ffffff93, #2b2a2aa4);
-        color: #ffffff;
-        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+        background: linear-gradient(135deg, #ffffff 0%, #dddddd 100%);
+        color: #000000;
+        border: 1px solid #ffffff;
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
     }
 
     .btn-primary:hover {
-        background: linear-gradient(90deg, #ffffff93, #2b2a2aa4);
+        background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+        box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
     }
 
     .btn-secondary {
-        background: transparent;
+        background: rgba(255, 255, 255, 0.04);
         color: #ffffff;
-        border: 2px solid #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(5px);
     }
 
     .btn-secondary:hover {
-        background: #ffffff;
-        color: #5c5c5c;
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        border-color: #ffffff;
         transform: translateY(-2px);
     }
 
